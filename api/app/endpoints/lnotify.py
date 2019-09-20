@@ -1,7 +1,6 @@
-""" API Model for HL7 Patient
-"""
+from flask_restplus import Namespace, Resource, fields, reqparse
 
-from flask_restplus import Namespace, fields
+import config
 
 api = Namespace("lnotify", description="Multilingual Appointment Notifier")
 
@@ -14,6 +13,7 @@ communication = api.model("Communication", {
 })
 
 patient = api.model("Patient", {
+    "id" : fields.String(description="Patient Resource ID"),
     "name" : fields.String(description="Human Name, A name associated with the patient"),
     "telecom" : fields.Integer(description="Contact Point, a contact detail for the individual"),
     "communication" : fields.List(fields.Nested(communication)),
@@ -26,3 +26,16 @@ patient = api.model("Patient", {
 practioner = api.model("Practitioner", {
     "name" : fields.String("Human Name, the name(s) associated with the practitioner")
 })
+
+reqpar_patient = reqparse.RequestParser()
+reqpar_patient.add_argument('name', 
+    type=str, 
+    help="Human Name associated with the Patient")
+
+@api.route('/patient/details')
+@api.expect(reqpar_patient)
+class Patient(Resource):
+    @api.doc("Return Patient details")
+    @api.marshal_list_with(patient)
+    def post(self):
+        return {}

@@ -1,2 +1,4 @@
 flask-restplus==0.13.0
-requests==2.22.0
+Flask-Cors==3.0.8
+twilio==6.31.0
+fhirclient==3.2.0
