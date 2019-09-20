@@ -1,11 +1,18 @@
 version: '2.3'
 
 services:
-  fhir:
+  frontend:
+    volumes:
+      - ./frontend/app:/usr/src/app
     ports:
-      - 8080:8080
+      - 8000:8000
+
   api:
     volumes:
       - ./api/app:/usr/src/app
     ports:
       - 8081:8080
+
+  fhir:
+    ports:
+      - 8080:8080

@@ -1,12 +1,16 @@
 version: '2.3'
 
 services:
-  fhir:
-    image: smartonfhir/hapi:r3
-  
+  frontend:
+    build: ./frontend
+    depends_on:
+      - api
+
   api:
     build: ./api
     depends_on:
       - fhir
 
+  fhir:
+    image: smartonfhir/hapi:r3
   
