@@ -3,3 +3,4 @@ Flask-Cors==3.0.8
 twilio==6.31.0
 fhirclient==3.2.0
 faker==2.0.2
+pdfrw==0.4
