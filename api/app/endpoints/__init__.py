@@ -1,6 +1,8 @@
 from flask_restplus import Api
 
+from endpoints.fhir import api as fhir
 from endpoints.lnotify import api as lnotify
+
 import config
 
 api = Api(
@@ -10,4 +12,5 @@ api = Api(
     doc=config.swagger_doc_url
 )
 
+api.add_namespace(fhir)
 api.add_namespace(lnotify)

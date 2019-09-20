@@ -5,3 +5,6 @@ debug = True
 
 # Swagger Settings
 swagger_doc_url = '/apidoc'
+
+# Connect with FHIR?
+fhir = False

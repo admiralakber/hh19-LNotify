@@ -2,9 +2,11 @@ version: '2.3'
 
 services:
   fhir:
-    image: smartonfhir/hapi:r3-sample
+    image: smartonfhir/hapi:r3
   
   api:
     build: ./api
+    depends_on:
+      - fhir
 
   
