@@ -1,0 +1,35 @@
+---
+FieldType: Text
+FieldName: Name
+FieldFlags: 0
+FieldJustification: Left
+---
+FieldType: Text
+FieldName: AppointmentWith
+FieldFlags: 0
+FieldJustification: Left
+---
+FieldType: Text
+FieldName: Phone
+FieldFlags: 0
+FieldJustification: Center
+---
+FieldType: Text
+FieldName: Address
+FieldFlags: 4096
+FieldJustification: Left
+---
+FieldType: Text
+FieldName: Date
+FieldFlags: 0
+FieldJustification: Left
+---
+FieldType: Text
+FieldName: Time
+FieldFlags: 0
+FieldJustification: Left
+---
+FieldType: Text
+FieldName: Interpreter
+FieldFlags: 0
+FieldJustification: Left
