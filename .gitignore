@@ -1,5 +1,6 @@
 # Secrets
 secrets.*
+*.pdf
 
 # Backups / temporary files
 *.bak
