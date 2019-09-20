@@ -8,9 +8,5 @@ services:
 
   api:
     build: ./api
-    depends_on:
-      - fhir
 
-  fhir:
-    image: smartonfhir/hapi:r3
   
