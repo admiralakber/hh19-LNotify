@@ -1,1 +1,11 @@
 # Contact Aqeel Akber <aqeel@thaum.io> for production versions
+
+version: '2.3'
+
+services:
+  api:
+    depends_on:
+      - fhir
+
+  fhir:
+    image: smartonfhir/hapi:r3
