@@ -15,3 +15,6 @@ compose/dev:
 dev/clean:
 	sudo find . -iname '*__pycache__' | xargs sudo rm -rv
 	
+args=config
+compose/prod:
+	sudo docker-compose -f docker-compose.yml -f docker-compose.prod.yml $(args)

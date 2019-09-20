@@ -16,3 +16,4 @@ services:
   fhir:
     ports:
       - 8080:8080
+    entrypoint: ["echo", "Service fhir disabled"]
