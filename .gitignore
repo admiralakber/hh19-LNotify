@@ -20,3 +20,13 @@ tramp
 __pycache__/
 *.py[cod]
 *$py.class
+
+# frontend stuff
+.cache
+node_modules
+yarn-error.log
+
+# Build directory
+/public
+.DS_Store
+.idea
