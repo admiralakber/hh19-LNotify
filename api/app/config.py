@@ -7,4 +7,5 @@ debug = True
 swagger_doc_url = '/apidoc'
 
 # Connect with FHIR?
-fhir = False
+use_fhir = False
+fhir_url = "http://fhir:8080/baseDstu3"

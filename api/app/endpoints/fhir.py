@@ -22,7 +22,7 @@ import endpoints.data
 
 ## Connect to the FHIR Database
 if config.fhir:
-    smart = fhirclient.client.FHIRClient({'app_id' : 'lnotify', 'api_base' : 'http://fhir:8080/baseDstu3'})
+    smart = fhirclient.client.FHIRClient({'app_id' : 'lnotify', 'api_base' : config.fhir_url})
     search = fhirclient.models.patient.Patient.where(struct={"language:not" : "en-US"})
     patients = search.perform_resources(smart.server)
     for p in patients:
@@ -66,7 +66,8 @@ practioner = api.model("Practitioner", {
 reqpar_patient = reqparse.RequestParser()
 reqpar_patient.add_argument('id', 
     type=str, 
-    help="Identifier Associated with the Patient")
+    help="Identifier Associated with the Patient",
+    required=True)
 
 @api.route('/patient/details')
 @api.expect(reqpar_patient)
