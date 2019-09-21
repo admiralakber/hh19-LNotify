@@ -19,7 +19,3 @@ from endpoints.notifier.pdf import *
 from endpoints.notifier.sms import *
 from endpoints.notifier.email import *
 
-
- 
-
- 

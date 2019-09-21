@@ -10,7 +10,7 @@ services:
     build: ./api
     volumes:
       - ./forms:/data/forms
-      - ./output:/data/output
+      - ./output:/usr/src/app/static
 
   fhir:
     image: smartonfhir/hapi:r3

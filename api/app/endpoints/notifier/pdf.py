@@ -1,5 +1,7 @@
 # Flask API Libraries
 from flask_restplus import Namespace, Resource, fields, reqparse
+from flask import render_template, make_response
+
 
 # drawing tools
 import pdfrw
@@ -44,10 +46,35 @@ def write_fillable_pdf(input_pdf_path, output_pdf_path, data_dict):
 # https://github.com/pmRed/govhack2018-EZ1/blob/master/blockchain/api/main.py
 hashfunclong = lambda x: hashlib.sha1(x.encode("UTF-8")).hexdigest()
 
+# Do the thing in a function so we can call it elsewhere
+def pdf(payload : dict) -> dict:
+    fillpdf = payload 
+    # generate a hash for this appointment
+    appointment_hash = hashfunclong("|".join(fillpdf.values()))
+
+    # fill the pdf and save it in /output/<hash>.pdf
+    write_fillable_pdf("{}/pdfs/{}/{}.pdf".format(config.template_dir, "Chinese", "Chinese"), 
+                        "{}/{}.pdf".format(config.output_dir, appointment_hash), fillpdf)
+
+    # HERE COMES THE HACKS
+    # turn the pdf into a rasterized picture
+    images = convert_from_path("{}/{}.pdf".format(config.output_dir, appointment_hash))
+    images[0].save("{}/{}.png".format(config.output_dir, appointment_hash))
+    subprocess.call(["convert", 
+                    "{}/{}.png".format(config.output_dir, appointment_hash),
+                    "-bordercolor", "white",
+                    "-border", "10",
+                    "-fuzz", "75%",
+                    "-trim", "+repage",
+                    "{}/{}_crop.png".format(config.output_dir, appointment_hash)])
+
+    return {"appointment_id" : appointment_hash}
+
+
 
 @api.route('/pdf')
 class PDF(Resource):
-    @api.doc("Given appointment details, make a PDF")
+    @api.doc("Given appointment details, make a document")
     #@api.marshal_list_with(patient)
     def get(self):
         fillpdf = {
@@ -60,19 +87,11 @@ class PDF(Resource):
             "Interpreter" : "Yes"
         }
 
+        return pdf(fillpdf)
 
-        # generate a hash for this appointment
-        appointment_hash = hashfunclong("|".join(fillpdf.values()))
-
-        # fill the pdf and save it in /output/<hash>.pdf
-        write_fillable_pdf("{}/pdfs/{}/{}.pdf".format(config.template_dir, "Arabic", "Arabic"), 
-                        "{}/{}.pdf".format(config.output_dir, appointment_hash), fillpdf)
-
-        # HERE COMES THE HACKS
-        # turn the pdf into a rasterized picture
-        images = convert_from_path("{}/{}.pdf".format(config.output_dir, appointment_hash))
-        images[0].save("{}/{}.png".format(config.output_dir, appointment_hash))
-        
-
-        return {"appointment_id" : appointment_hash}
-    
+@api.route("/card/<string:appointment_id>")
+class HTMLRender(Resource):
+    def get(self, appointment_id):
+        headers = {'Content-Type': 'text/html'}
+        html = render_template("appointment.html", appointment_id=appointment_id)
+        return make_response(html, 200, headers)

@@ -12,4 +12,4 @@ fhir_url = "http://fhir:8080/baseDstu3"
 
 # Datastore / Forms
 template_dir = "/data/forms/"
-output_dir = "/data/output/"
+output_dir = "/usr/src/app/static"
