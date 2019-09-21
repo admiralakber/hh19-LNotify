@@ -91,13 +91,14 @@ class AppointmentForm extends Component {
             interp
         } = this.state
         const data = { patient, doctor, language, vision, dateTime, interp, name}
-        fetch("http://localhost:8081/LNotify/notify", {
+        const get_req = "dateTime="+data.dateTime+"&doctor="+doctor+"&interp="+interp+"&language="+language+"&name="+name+"&patient="+patient+"&vision="+vision
+        fetch("http://localhost:8081/LNotify/notify?"+get_req, {
             headers: {
                 Accept: "application/json"
                 },
-            method: "POST",
-            body: JSON.stringify(data)
-        })
+            method: "GET",
+        }).then( (e) => e.json())
+        .then( (e) => window.open(e.url, "_blank"))
         this.setState({success : true, error: false})
     }
     
