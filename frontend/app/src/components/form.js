@@ -29,11 +29,14 @@ class AppointmentForm extends Component {
         dateTime: '',
         success: false,
         error: false,
-        languages: [],
-        patients: [],
-        doctors: [],
-        defaultDoctor: 'Search ...',
-        defaultLanguage: 'Search ...'
+        languageOptions: [],
+        language: undefined,
+        patientOptions: [],
+        patient: undefined,
+        doctorOptions: [],
+        doctor: undefined,
+        defaultDoctor: 'Default Practitioner if not specified',
+        defaultLanguage: 'Default Practitioner if not specified'
     }
 
     async componentDidMount ()  {
@@ -42,41 +45,34 @@ class AppointmentForm extends Component {
             Accept: "application/json"
             }
         })
-        const doctors = await doctorsR.json()
+        const doctorOptions = await doctorsR.json()
         const patientsR = await fetch("http://localhost:8081/FHIR/patients", {
             headers: {
             Accept: "application/json"
             }
         })
-        const patients = await patientsR.json()
+        const patientOptions = await patientsR.json()
         const languagesR = await fetch("http://localhost:8081/FHIR/languages", {
             headers: {
             Accept: "application/json"
             }
         })
-        const languages = await languagesR.json()
+        const languageOptions = await languagesR.json()
         this.setState({ 
-            doctors, 
-            patients, 
-            languages 
+            doctorOptions, 
+            patientOptions, 
+            languageOptions 
         })
     } 
 
     handleChange = (e, { name, value }) => {
+        console.log(this.state)
         if (this.state.hasOwnProperty(name)) {
             this.setState({ [name]: value });
         }
     }
 
     handleToggle = (e, { name, value }) => {
-        console.log(value)
-        if (this.state.hasOwnProperty(name)) {
-            this.setState({ [name]: !value });
-        }
-    }
-
-    handleToggle = (e, { name, value }) => {
-        console.log(value)
         if (this.state.hasOwnProperty(name)) {
             this.setState({ [name]: !value });
         }
@@ -87,17 +83,42 @@ class AppointmentForm extends Component {
     }
 
     handleSubmit = (e, { name, value }) => {
-        console.log(name)
-        // Set True
+        const { patient, 
+            doctor, 
+            language, 
+            vision,
+            dateTime,
+            interp
+        } = this.state
+        const data = { patient, doctor, language, vision, dateTime, interp}
+        fetch("http://localhost:8081/LNotify/notify", {
+            headers: {
+                Accept: "application/json"
+                },
+            method: "POST",
+            body: JSON.stringify(data)
+        })
         this.setState({success : true, error: false})
     }
-    onSelect = (e, { key, value }) => {
-        // async fetch("http://localhost:8081/FHIR/patient/details?id=0", {
-        // headers: {
-        //     Accept: "application/json"
-        //     },
-        //     method: "POST"
-        // })
+    
+    onSelect = (e, { name, value }) => {
+        this.handleChange(e, {name, value})
+        fetch("http://localhost:8081/FHIR/patient/details?id=0", {
+            headers: {
+                Accept: "application/json"
+                },
+            method: "POST"
+        }).then(
+            (response) => {
+                const data = response.json()
+                return data
+            }
+        ).then( (data) =>{
+            this.setState({
+                doctor : data.generalPractitioner
+                // defaultLanguage : data.communication[0].language
+            })
+        })
     }
 
     render() {
@@ -106,9 +127,9 @@ class AppointmentForm extends Component {
             success, 
             error, 
             vision,
-            doctors,
-            patients,
-            languages,
+            doctorOptions,
+            patientOptions,
+            languageOptions,
             defaultDoctor,
             defaultLanguage
         } = this.state
@@ -123,29 +144,35 @@ class AppointmentForm extends Component {
                         search
                         fluid 
                         label='Patient' 
+                        name='patient'
+                        value={doctor}
                         placeholder='Search ...' 
-                        options={patients}
+                        options={patientOptions}
                         onChange={this.onSelect}
                     />
-                    <Form.Select 
-                        search
+                    <Form.Dropdown
+                        selection
                         fluid 
                         label='Healthcare Professional' 
+                        name='doctor'
+                        onChange={this.handleChange}
                         placeholder={defaultDoctor}
-                        options={doctors}
+                        options={doctorOptions}
                     />
                     <Form.Select
                         fluid
                         search
                         label='Language'
+                        name='language'
+                        onChange={this.handleChange}
                         placeholder={defaultLanguage}
-                        options={languages}
+                        options={languageOptions}
                     />
                     <Form.Group inline>
                         <label>Interpreter Organised</label>
                         <Form.Radio
                             toggle
-                            // value={interp}
+                            value={interp}
                             name='interp'
                             checked={interp}
                             onChange={this.handleToggle}
@@ -155,7 +182,7 @@ class AppointmentForm extends Component {
                         <label>Vision Impaired</label>
                         <Form.Radio
                             toggle
-                            // value={vision}
+                            value={vision}
                             name='vision'
                             checked={vision}
                             onChange={this.handleToggle}
