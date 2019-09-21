@@ -1,4 +1,7 @@
 FROM python:3-onbuild
+
+RUN apt-get update ; apt-get upgrade ; apt-get install -y poppler-utils
+
 COPY requirements.txt /usr/src/app/requirements.txt
 COPY app/ /usr/src/app
 
