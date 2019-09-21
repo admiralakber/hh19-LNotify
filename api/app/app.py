@@ -4,8 +4,6 @@ from flask_cors import CORS
 import config
 from endpoints import api
 
-# trollface.jpg
-from textmagic.rest import TextmagicRestClient
 
 
 # See
@@ -56,13 +54,6 @@ def initialise(flask_app):
     api.init_app(app)
 
 if __name__ == "__main__":
-
-
-    #username = "aqeelakber"
-    #token = "VJ6O0aVQqaz5i6w3oNt7MWVgTnHnvy"
-    #client = TextmagicRestClient(username, token)
-    #message = client.messages.create(phones="+61430204771", text="Hello TextMagic")
-
     initialise(app)
     app.run(
         host=config.bind_address, \

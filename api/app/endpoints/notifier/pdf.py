@@ -70,23 +70,6 @@ def pdf(fillpdf : dict) -> dict:
     return {"appointment_id" : appointment_hash, "url" : "http://localhost:8081/LNotify/card/{}".format(appointment_hash)}
     #return redirect('http://localhost:8081/card/{}'.format(appointment_hash))
 
-@api.route('/pdf')
-class PDF(Resource):
-    @api.doc("Given appointment details, make a document")
-    #@api.marshal_list_with(patient)
-    def get(self):
-        fillpdf = {
-            "Name" : "David Yohan",
-            "AppointmentWith" : "Dr Doctor Who",
-            "Phone" : "+61430204771",
-            "Address" : "The place over there",
-            "Date" : "2019-09-21",
-            "Time" : "11:00 AM",
-            "Interpreter" : "Yes"
-        }
-
-        return pdf(fillpdf)
-
 @api.route("/card/<string:appointment_id>")
 class HTMLRender(Resource):
     def get(self, appointment_id):

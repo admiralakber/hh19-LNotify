@@ -67,23 +67,26 @@ class Notifier(Resource):
         Time = DateTime.strftime("%I:%M %p")
         AppointmentWith = endpoints.data.doctors[args['doctor']][0]
         Interpreter = str(args['interp'])
-        Address = endpoints.data.doctors[args['doctor']][1]
+        # hack
+        Address,Phone = endpoints.data.doctors[args['doctor']][1].split(" Phone: ")
         Language = args['language']
         VisionImpaired = str(args['vision'])
         
         NotificationType = args['name']
 
-        if NotificationType == "print":
-            fillpdf = {
+        filled = {
                 "Name" : Name,
                 "AppointmentWith" : AppointmentWith,
-                "Phone" : "3811 1232",
+                "Phone" : Phone,
                 "Address" : Address,
                 "Date" : Date,
                 "Time" : Time,
                 "Interpreter" : Interpreter,
                 "Language" : Language
             }
-            
-            return pdf(fillpdf)
+
+        if NotificationType == "print":
+            return pdf(filled)
+        if NotificationType == "sms":
+            return sms(filled)
 
