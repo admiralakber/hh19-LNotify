@@ -91,7 +91,6 @@ class AppointmentForm extends Component {
             interp
         } = this.state
         const data = { patient, doctor, language, vision, dateTime, interp, name}
-        console.log(data)
         fetch("http://localhost:8081/LNotify/notify", {
             headers: {
                 Accept: "application/json"
@@ -137,7 +136,7 @@ class AppointmentForm extends Component {
         return (
             <Segment>
                 <Header as='h2'>
-                   Form Title 
+                   Appointment Reminder Translator
                 </Header>
                 <Divider />
                 <Form error={error} success={success}>
@@ -194,7 +193,6 @@ class AppointmentForm extends Component {
                         className='example-calendar-input'
                         value={this.state.dateTime}
                         name='dateTime'
-                        disableMinute
                         onChange={this.handleChange}
                         minDate={moment()}
                     />

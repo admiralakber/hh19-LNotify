@@ -3,11 +3,8 @@ import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { StaticQuery, graphql } from 'gatsby'
 import { Container, } from 'semantic-ui-react'
-
 import Header from './header'
-
 import 'semantic-ui-less/semantic.less'
-import { Link } from 'gatsby'
 
 
 const Layout = ({ children, data }) => (
@@ -22,7 +19,10 @@ const Layout = ({ children, data }) => (
       }
     `}
     render={data => (
-      <>
+      <div style={{ minHeight: '100vh', 
+        display: 'flex', 
+        flexDirection: 'column' 
+      }}>
         <Helmet
           title={data.site.siteMetadata.title}
           meta={[
@@ -33,10 +33,16 @@ const Layout = ({ children, data }) => (
 
         <Header/>
 
-        <Container>
+        <Container style={{ 
+          flexGrow: '1',
+          display: 'flex',
+          flexDirection: 'column',
+          // alignItems: 'center',
+          justifyContent: 'center'
+          }}>
             {children}
         </Container>
-      </>
+      </div>
     )}
   />
 )

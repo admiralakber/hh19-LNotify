@@ -19,7 +19,7 @@ const patient = _.times(5, () => ({
 }))
 
 const IndexPage = () => (
-  <Layout>
+  <Layout style={{flexGrow: 1}}>
     <Form />
     {/* <Search 
       source={doctor}
