@@ -21,7 +21,7 @@ import endpoints.data
 #
 
 ## Connect to the FHIR Database
-if config.fhir:
+if config.use_fhir:
     smart = fhirclient.client.FHIRClient({'app_id' : 'lnotify', 'api_base' : config.fhir_url})
     search = fhirclient.models.patient.Patient.where(struct={"language:not" : "en-US"})
     patients = search.perform_resources(smart.server)
