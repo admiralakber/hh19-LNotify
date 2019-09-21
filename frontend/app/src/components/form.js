@@ -11,6 +11,7 @@ import {
     Container
 } from 'semantic-ui-react'
 import moment from 'moment'
+import _ from 'lodash'
 
 import {
     DateTimeInput
@@ -90,21 +91,45 @@ class AppointmentForm extends Component {
             dateTime,
             interp
         } = this.state
-        const data = { patient, doctor, language, vision, dateTime, interp, name}
-        const get_req = "dateTime="+data.dateTime+"&doctor="+doctor+"&interp="+interp+"&language="+language+"&name="+name+"&patient="+patient+"&vision="+vision
+        const get_req = "dateTime="+dateTime+"&doctor="+doctor+"&interp="+interp+"&language="+language+"&name="+name+"&patient="+patient+"&vision="+vision
         fetch("http://localhost:8081/LNotify/notify?"+get_req, {
             headers: {
                 Accept: "application/json"
                 },
             method: "GET",
-        }).then( (e) => e.json())
-        .then( (e) => window.open(e.url, "_blank"))
-        this.setState({success : true, error: false})
+        }).then( 
+            e => e.json()
+        ).then( 
+            e => {
+                console.log(name)
+                if (name==='print') {
+                    window.open(e.url, "_blank")
+                }
+                if (name==='sms') {
+                    // Callback for SMS
+                }
+                if (name==='email') {
+                    //callback
+                }
+                return
+        })
+        this.setState({
+            success : true, 
+            error: false,
+            language: '',
+            patient: '',
+            doctor: '',
+            notes: '',
+            dateTime: moment()
+        })
     }
     
     onSelect = (e, { name, value }) => {
         this.handleChange(e, {name, value})
-        fetch("http://localhost:8081/FHIR/patient/details?id=0", {
+
+        this.setState({interp : _.sample([true, false])})
+
+        fetch("http://localhost:8081/FHIR/patient/details?id=" + value, {
             headers: {
                 Accept: "application/json"
                 },
@@ -114,11 +139,33 @@ class AppointmentForm extends Component {
                 const data = response.json()
                 return data
             }
-        ).then( (data) =>{
-            this.setState({
-                doctor : data.generalPractitioner
-                // defaultLanguage : data.communication[0].language
-            })
+        ).then( data => {
+            const { doctorOptions, languageOptions } = this.state
+
+            const doctor = doctorOptions.find( it => {
+                return (it.text === data.generalPractitioner) 
+            }).value
+            console.log(typeof(doctor))
+            if (typeof(doctor) !== undefined) {
+                this.setState({
+                    doctor
+                })
+            }
+            else {
+                console.log("Warn - Unregistered Doctor:", data.generalPractitioner)
+            }
+            const language = languageOptions.find( it => {
+                return (it.text === data.communication[0].language)
+            }).value
+            if (typeof(language) !== undefined) {
+                this.setState({
+                    language
+                })
+            }
+            else {
+                console.log("Warn - Unsupported Language:",
+                data.communication)
+            }
         })
     }
 
@@ -128,17 +175,22 @@ class AppointmentForm extends Component {
             success, 
             error, 
             vision,
+            doctor,
+            patient,
+            language,
             doctorOptions,
             patientOptions,
             languageOptions,
             defaultDoctor,
             defaultLanguage
         } = this.state
+        const disabled = (doctor === '') || (patient === '') || (language === '')
         return (
-            <Segment>
-                <Header as='h2'>
-                   Appointment Reminder Translator
-                </Header>
+            <div>
+            <Header as='h1'>
+                Appointment Reminder Translator
+            </Header>
+            <Segment color='teal'>
                 <Divider />
                 <Form error={error} success={success}>
                     <Form.Select 
@@ -146,6 +198,7 @@ class AppointmentForm extends Component {
                         fluid 
                         label='Patient' 
                         name='patient'
+                        value={patient}
                         placeholder='Search ...' 
                         options={patientOptions}
                         onChange={this.onSelect}
@@ -155,6 +208,7 @@ class AppointmentForm extends Component {
                         fluid 
                         label='Healthcare Professional' 
                         name='doctor'
+                        value={doctor}
                         onChange={this.handleChange}
                         placeholder={defaultDoctor}
                         options={doctorOptions}
@@ -164,12 +218,14 @@ class AppointmentForm extends Component {
                         search
                         label='Language'
                         name='language'
+                        value={language}
                         onChange={this.handleChange}
                         placeholder={defaultLanguage}
                         options={languageOptions}
                     />
+                    <Divider />
                     <Form.Group inline>
-                        <label>Interpreter Organised</label>
+                        <label>Has an interpreter been organised?</label>
                         <Form.Radio
                             toggle
                             value={interp}
@@ -177,9 +233,8 @@ class AppointmentForm extends Component {
                             checked={interp}
                             onChange={this.handleToggle}
                         />
-                    </Form.Group>
-                    <Form.Group inline>
-                        <label>Vision Impaired</label>
+                        <Icon name='audio'/>
+                        <label> Send an audio accessible message?</label>
                         <Form.Radio
                             toggle
                             value={vision}
@@ -203,6 +258,7 @@ class AppointmentForm extends Component {
                                 floated='right'
                                 onClick={this.resetDates}
                                 // disabled
+                                color='teal'
                             >
                                 <Icon name='refresh'/>
                                 Reset Dates
@@ -214,18 +270,19 @@ class AppointmentForm extends Component {
                     <Form.TextArea 
                         label='Notes' placeholder='Additional Notes to be included with form letter ...' 
                         name='notes'
-                        onChange={this.handleSubmit}
+                        onChange={this.handleChange}
                     />
                      
                     <Grid>
                         <Grid.Column textAlign="center">
-
                             <Button.Group 
                             size='large' 
                             >
                                 <Form.Button
                                     name='sms'
                                     onClick={this.handleSubmit}
+                                    color='green'
+                                    disabled={disabled}
                                 >
                                     <Icon name='chat'/>
                                     SMS
@@ -234,6 +291,8 @@ class AppointmentForm extends Component {
                                 <Form.Button
                                     name='email'
                                     onClick={this.handleSubmit}
+                                    color='blue'
+                                    disabled={disabled}
                                 >
                                     <Icon name='mail'/>
                                     Email
@@ -242,6 +301,8 @@ class AppointmentForm extends Component {
                                 <Form.Button
                                     name='print'
                                     onClick={this.handleSubmit}
+                                    color='violet'
+                                    disabled={disabled}
                                 >
                                     <Icon name='print'/>
                                     Print
@@ -261,6 +322,7 @@ class AppointmentForm extends Component {
                     />
                 </Form>
             </Segment>
+            </div>
         )
     }
 }

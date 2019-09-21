@@ -21,7 +21,7 @@ const Layout = ({ children, data }) => (
     render={data => (
       <div style={{ minHeight: '100vh', 
         display: 'flex', 
-        flexDirection: 'column' 
+        flexDirection: 'column' ,
       }}>
         <Helmet
           title={data.site.siteMetadata.title}
@@ -31,13 +31,13 @@ const Layout = ({ children, data }) => (
           ]}
         />
 
-        <Header style={{ height: '300px' }}/>
+        <Header />
 
         <Container style={{ 
           flexGrow: '1',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center'
+          justifyContent: 'center',
           }}>
             {children}
         </Container>

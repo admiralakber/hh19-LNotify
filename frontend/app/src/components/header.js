@@ -30,7 +30,7 @@ export default class Header extends Component {
             <Menu.Menu position='right'>
               <LinkedItem
                 name='templates'
-                to='templates'
+                to='template'
                 active={activeItem === 'templates'}
                 onClick={this.handleItemClick}
               />
