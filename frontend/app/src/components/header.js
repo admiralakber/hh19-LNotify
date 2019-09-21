@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Menu, Container } from 'semantic-ui-react'
 import { Link } from 'gatsby'
+import {withRouter} from 'react-router-dom';
 
 const LinkedItem = ({ children, ...props }) => (
   <Menu.Item 
@@ -10,7 +11,9 @@ const LinkedItem = ({ children, ...props }) => (
    </Menu.Item>
 )
 
-export default class Header extends Component {
+const RouteComponent = withRouter(props => <Header {...props}/>)
+
+class Header extends Component {
   state = { activeItem: 'home' }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
@@ -19,7 +22,7 @@ export default class Header extends Component {
     const { activeItem } = this.state
 
     return (
-        <Menu pointing secondary>
+        <Menu pointing secondary style={{height: '100px'}}>
           <Container>
             <LinkedItem
               name='home'
@@ -27,19 +30,13 @@ export default class Header extends Component {
               active={activeItem === 'home'}
               onClick={this.handleItemClick}
             />
-            <LinkedItem
-              name='monitor'
-              to='dashboard'
-              active={activeItem === 'monitor'}
-              onClick={this.handleItemClick}
-            />
-            <LinkedItem
-              name='about'
-              to='about'
-              active={activeItem === 'about'}
-              onClick={this.handleItemClick}
-            />
             <Menu.Menu position='right'>
+              <LinkedItem
+                name='templates'
+                to='template'
+                active={activeItem === 'templates'}
+                onClick={this.handleItemClick}
+              />
               <LinkedItem
                 name='logout'
                 active={activeItem === 'logout'}

@@ -26,7 +26,7 @@ class AppointmentForm extends Component {
     state = {
         interp: false,
         vision: false,
-        dateTime: '',
+        dateTime: moment(), 
         success: false,
         error: false,
         languageOptions: [],
@@ -149,7 +149,7 @@ class AppointmentForm extends Component {
                         options={patientOptions}
                         onChange={this.onSelect}
                     />
-                    <Form.Dropdown
+                    <Form.Select
                         search 
                         fluid 
                         label='Healthcare Professional' 
@@ -210,7 +210,11 @@ class AppointmentForm extends Component {
                     </Grid>
                     <Divider />
 
-                    <Form.TextArea label='Notes' placeholder='Additional Notes to be included with form letter ...' />
+                    <Form.TextArea 
+                        label='Notes' placeholder='Additional Notes to be included with form letter ...' 
+                        name='notes'
+                        onChange={this.handleSubmit}
+                    />
                      
                     <Grid>
                         <Grid.Column textAlign="center">
