@@ -19,14 +19,14 @@ export default class Header extends Component {
     const { activeItem } = this.state
 
     return (
-        <Menu pointing secondary style={{height: '100px'}}>
+        <Menu pointing secondary>
           <Container>
             <LinkedItem
               name='home'
               to='/'
               active={activeItem === 'home'}
               onClick={this.handleItemClick}
-            />
+            ><img src="CultureFluent.png" style={{height: '100px', width: "100%"}}></img></LinkedItem>
             <Menu.Menu position='right'>
               <LinkedItem
                 name='templates'
