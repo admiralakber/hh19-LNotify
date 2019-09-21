@@ -2,6 +2,9 @@
 secrets.*
 *.pdf
 
+# outputs
+
+
 # Backups / temporary files
 *.bak
 ### Emacs ###
