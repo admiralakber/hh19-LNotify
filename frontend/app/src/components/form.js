@@ -23,18 +23,55 @@ const options = [
 ]
 
 class AppointmentForm extends Component {
-  state = {
-      interp: false,
-      vision: false,
-      dateTime: '',
-      success: false,
-      error: false
-  }
+    state = {
+        interp: false,
+        vision: false,
+        dateTime: '',
+        success: false,
+        error: false,
+        languages: [],
+        patients: [],
+        doctors: [],
+        defaultDoctor: 'Search ...',
+        defaultLanguage: 'Search ...'
+    }
+
+    async componentDidMount ()  {
+        const doctorsR = await fetch("http://localhost:8081/FHIR/doctors", {
+            headers: {
+            Accept: "application/json"
+            }
+        })
+        const doctors = await doctorsR.json()
+        const patientsR = await fetch("http://localhost:8081/FHIR/patients", {
+            headers: {
+            Accept: "application/json"
+            }
+        })
+        const patients = await patientsR.json()
+        const languagesR = await fetch("http://localhost:8081/FHIR/languages", {
+            headers: {
+            Accept: "application/json"
+            }
+        })
+        const languages = await languagesR.json()
+        this.setState({ 
+            doctors, 
+            patients, 
+            languages 
+        })
+    } 
 
     handleChange = (e, { name, value }) => {
-        console.log(value)
         if (this.state.hasOwnProperty(name)) {
             this.setState({ [name]: value });
+        }
+    }
+
+    handleToggle = (e, { name, value }) => {
+        console.log(value)
+        if (this.state.hasOwnProperty(name)) {
+            this.setState({ [name]: !value });
         }
     }
 
@@ -50,14 +87,31 @@ class AppointmentForm extends Component {
     }
 
     handleSubmit = (e, { name, value }) => {
-        // Validate inputs
         console.log(name)
         // Set True
         this.setState({success : true, error: false})
     }
+    onSelect = (e, { key, value }) => {
+        // async fetch("http://localhost:8081/FHIR/patient/details?id=0", {
+        // headers: {
+        //     Accept: "application/json"
+        //     },
+        //     method: "POST"
+        // })
+    }
 
     render() {
-        const { interp, success, error, vision } = this.state
+        const { 
+            interp, 
+            success, 
+            error, 
+            vision,
+            doctors,
+            patients,
+            languages,
+            defaultDoctor,
+            defaultLanguage
+        } = this.state
         return (
             <Segment>
                 <Header as='h2'>
@@ -67,26 +121,31 @@ class AppointmentForm extends Component {
                 <Form error={error} success={success}>
                     <Form.Select 
                         search
-                        fluid label='Patient' placeholder='Search ...' 
+                        fluid 
+                        label='Patient' 
+                        placeholder='Search ...' 
+                        options={patients}
+                        onChange={this.onSelect}
                     />
                     <Form.Select 
                         search
                         fluid 
-                        label='Doctor' 
-                        placeholder='Search ...' 
+                        label='Healthcare Professional' 
+                        placeholder={defaultDoctor}
+                        options={doctors}
                     />
                     <Form.Select
                         fluid
                         search
                         label='Language'
-                        options={options}
-                        placeholder='Based on the data'
+                        placeholder={defaultLanguage}
+                        options={languages}
                     />
                     <Form.Group inline>
                         <label>Interpreter Organised</label>
                         <Form.Radio
                             toggle
-                            value={interp}
+                            // value={interp}
                             name='interp'
                             checked={interp}
                             onChange={this.handleToggle}
@@ -96,7 +155,7 @@ class AppointmentForm extends Component {
                         <label>Vision Impaired</label>
                         <Form.Radio
                             toggle
-                            value={vision}
+                            // value={vision}
                             name='vision'
                             checked={vision}
                             onChange={this.handleToggle}

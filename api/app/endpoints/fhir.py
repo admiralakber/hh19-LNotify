@@ -92,6 +92,7 @@ class Patients(Resource):
 class Doctors(Resource):
     @api.doc("List of Doctors and Names")
     def get(self):
+        print("doctors", flush=True)
         resp = []
         for i, details in enumerate(endpoints.data.doctors):
             r = {"key" : i, "text" : details[0], "value" : details[1]}
