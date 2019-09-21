@@ -57,7 +57,7 @@ class AppointmentForm extends Component {
     }
 
     render() {
-        const { interp, success, error} = this.state
+        const { interp, success, error, vision } = this.state
         return (
             <Segment>
                 <Header as='h2'>
