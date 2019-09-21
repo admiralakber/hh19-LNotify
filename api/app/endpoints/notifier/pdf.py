@@ -1,6 +1,6 @@
 # Flask API Libraries
 from flask_restplus import Namespace, Resource, fields, reqparse
-from flask import render_template, make_response
+from flask import render_template, make_response, redirect, url_for
 
 
 # drawing tools
@@ -47,13 +47,12 @@ def write_fillable_pdf(input_pdf_path, output_pdf_path, data_dict):
 hashfunclong = lambda x: hashlib.sha1(x.encode("UTF-8")).hexdigest()
 
 # Do the thing in a function so we can call it elsewhere
-def pdf(payload : dict) -> dict:
-    fillpdf = payload 
+def pdf(fillpdf : dict) -> dict:
     # generate a hash for this appointment
     appointment_hash = hashfunclong("|".join(fillpdf.values()))
 
     # fill the pdf and save it in /output/<hash>.pdf
-    write_fillable_pdf("{}/pdfs/{}/{}.pdf".format(config.template_dir, "Chinese", "Chinese"), 
+    write_fillable_pdf("{}/pdfs/{}/{}.pdf".format(config.template_dir, fillpdf['Language'].capitalize(), fillpdf['Language'].capitalize()), 
                         "{}/{}.pdf".format(config.output_dir, appointment_hash), fillpdf)
 
     # HERE COMES THE HACKS
@@ -68,9 +67,8 @@ def pdf(payload : dict) -> dict:
                     "-trim", "+repage",
                     "{}/{}_crop.png".format(config.output_dir, appointment_hash)])
 
-    return {"appointment_id" : appointment_hash}
-
-
+    return {"appointment_id" : appointment_hash, "url" : "http://localhost:8081/LNotify/card/{}".format(appointment_hash)}
+    #return redirect('http://localhost:8081/card/{}'.format(appointment_hash))
 
 @api.route('/pdf')
 class PDF(Resource):
