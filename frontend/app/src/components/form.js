@@ -30,11 +30,11 @@ class AppointmentForm extends Component {
         success: false,
         error: false,
         languageOptions: [],
-        language: undefined,
+        language: '',
         patientOptions: [],
-        patient: undefined,
+        patient: '',
         doctorOptions: [],
-        doctor: undefined,
+        doctor: '',
         defaultDoctor: 'Default Practitioner if not specified',
         defaultLanguage: 'Default Practitioner if not specified'
     }
@@ -91,6 +91,7 @@ class AppointmentForm extends Component {
             interp
         } = this.state
         const data = { patient, doctor, language, vision, dateTime, interp, name}
+        console.log(data)
         fetch("http://localhost:8081/LNotify/notify", {
             headers: {
                 Accept: "application/json"
@@ -145,7 +146,6 @@ class AppointmentForm extends Component {
                         fluid 
                         label='Patient' 
                         name='patient'
-                        value={doctor}
                         placeholder='Search ...' 
                         options={patientOptions}
                         onChange={this.onSelect}
