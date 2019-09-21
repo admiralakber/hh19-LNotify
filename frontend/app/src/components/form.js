@@ -7,7 +7,8 @@ import {
     Divider,
     Icon,
     Grid,
-    Message
+    Message,
+    Container
 } from 'semantic-ui-react'
 import moment from 'moment'
 
@@ -24,6 +25,7 @@ const options = [
 class AppointmentForm extends Component {
   state = {
       interp: false,
+      vision: false,
       dateTime: '',
       success: false,
       error: false
@@ -51,7 +53,7 @@ class AppointmentForm extends Component {
         // Validate inputs
         console.log(name)
         // Set True
-        this.setState({success : true})
+        this.setState({success : true, error: false})
     }
 
     render() {
@@ -87,6 +89,16 @@ class AppointmentForm extends Component {
                             value={interp}
                             name='interp'
                             checked={interp}
+                            onChange={this.handleToggle}
+                        />
+                    </Form.Group>
+                    <Form.Group inline>
+                        <label>Vision Impaired</label>
+                        <Form.Radio
+                            toggle
+                            value={vision}
+                            name='interp'
+                            checked={vision}
                             onChange={this.handleToggle}
                         />
                     </Form.Group>
@@ -151,7 +163,7 @@ class AppointmentForm extends Component {
                     <Message
                         success
                         header='Form Completed'
-                        content="You did the thing"
+                        content="Positive confirmation message"
                     />
                     <Message
                         error
