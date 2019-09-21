@@ -3,10 +3,12 @@ from flask_restplus import Namespace, Resource, fields, reqparse
 
 # drawing tools
 import pdfrw
+from pdf2image import convert_from_path
 
 # stdlib
 import os
 import hashlib
+import subprocess
 
 # lnotify
 from endpoints.lnotify import api
@@ -58,10 +60,19 @@ class PDF(Resource):
             "Interpreter" : "Yes"
         }
 
+
+        # generate a hash for this appointment
         appointment_hash = hashfunclong("|".join(fillpdf.values()))
 
+        # fill the pdf and save it in /output/<hash>.pdf
         write_fillable_pdf("{}/pdfs/{}/{}.pdf".format(config.template_dir, "Arabic", "Arabic"), 
                         "{}/{}.pdf".format(config.output_dir, appointment_hash), fillpdf)
+
+        # HERE COMES THE HACKS
+        # turn the pdf into a rasterized picture
+        images = convert_from_path("{}/{}.pdf".format(config.output_dir, appointment_hash))
+        images[0].save("{}/{}.png".format(config.output_dir, appointment_hash))
+        
 
         return {"appointment_id" : appointment_hash}
     
