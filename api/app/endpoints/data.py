@@ -93,7 +93,7 @@ patient = { "id" : "3",
             ],
             "communication" : [
                 {
-                    "language" : "Russia",
+                    "language" : "Russian",
                     "preferred" : True
                 }
             ],

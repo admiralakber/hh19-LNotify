@@ -6,3 +6,5 @@ faker==2.0.2
 pdfrw==0.4
 pdf2image==1.8.0
 textmagic==2.0.3
+gTTS==2.0.4
+googletrans==2.4.0
