@@ -90,7 +90,7 @@ class AppointmentForm extends Component {
             dateTime,
             interp
         } = this.state
-        const data = { patient, doctor, language, vision, dateTime, interp}
+        const data = { patient, doctor, language, vision, dateTime, interp, name}
         fetch("http://localhost:8081/LNotify/notify", {
             headers: {
                 Accept: "application/json"
