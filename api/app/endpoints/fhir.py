@@ -95,7 +95,7 @@ class Doctors(Resource):
         print("doctors", flush=True)
         resp = []
         for i, details in enumerate(endpoints.data.doctors):
-            r = {"key" : i, "text" : details[0], "value" : details[1]}
+            r = {"key" : i, "text" : details[0], "value" : i}
             resp.append(r)
         return resp
 
