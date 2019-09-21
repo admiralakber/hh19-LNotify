@@ -97,7 +97,7 @@ class AppointmentForm extends Component {
                         <Form.Radio
                             toggle
                             value={vision}
-                            name='interp'
+                            name='vision'
                             checked={vision}
                             onChange={this.handleToggle}
                         />
