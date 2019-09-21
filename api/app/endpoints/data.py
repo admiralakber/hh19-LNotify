@@ -54,7 +54,7 @@ patient = { "id" : "1",
                     "preferred" : True
                 },
                 {
-                    "language" : "Punjabi",
+                    "language" : "Urdu",
                     "preferred" : False
                 }
             ],
@@ -135,7 +135,7 @@ patient = { "id" : "5",
             ],
             "communication" : [
                 {
-                    "language" : "Persian Farsi",
+                    "language" : "Farsi",
                     "preferred" : True
                 }
             ],
