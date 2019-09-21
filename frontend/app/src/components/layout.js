@@ -31,13 +31,12 @@ const Layout = ({ children, data }) => (
           ]}
         />
 
-        <Header/>
+        <Header style={{ height: '300px' }}/>
 
         <Container style={{ 
           flexGrow: '1',
           display: 'flex',
           flexDirection: 'column',
-          // alignItems: 'center',
           justifyContent: 'center'
           }}>
             {children}

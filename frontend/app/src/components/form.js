@@ -150,7 +150,7 @@ class AppointmentForm extends Component {
                         onChange={this.onSelect}
                     />
                     <Form.Dropdown
-                        selection
+                        search 
                         fluid 
                         label='Healthcare Professional' 
                         name='doctor'
