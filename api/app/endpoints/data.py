@@ -27,11 +27,11 @@ patient = { "id" : "0",
             ],
             "communication" : [
                 {
-                    "language" : "mandarin",
+                    "language" : "Mandarin",
                     "preferred" : True
                 },
                 {
-                    "language" : "cantonese",
+                    "language" : "Cantonese",
                     "preferred" : False
                 }
             ],
