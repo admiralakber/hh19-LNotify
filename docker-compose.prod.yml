@@ -3,9 +3,15 @@
 version: '2.3'
 
 services:
+  frontend:
+    volumes:
+      - ./frontend/app:/usr/src/app
+
   api:
     depends_on:
       - fhir
+    volumes:
+      - ./api/app:/usr/src/app
 
   nginx:
     depends_on:
