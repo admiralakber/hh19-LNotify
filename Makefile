@@ -12,6 +12,8 @@ reqs/git:
 
 setup/prod:
 	cd letsencrypt_nginx; make setup/cert domain=culturefluent.thaum.io
+	cd letsencrypt_nginx; make setup/cert domain=api.culturefluent.thaum.io
+
 
 args=config
 compose/dev:
