@@ -91,6 +91,7 @@ class AppointmentForm extends Component {
             language, 
             vision,
             dateTime,
+            patientOptions,
             interp
         } = this.state
         const get_req = "dateTime="+dateTime+"&doctor="+doctor+"&interp="+interp+"&language="+language+"&name="+name+"&patient="+patient+"&vision="+vision
@@ -115,7 +116,10 @@ class AppointmentForm extends Component {
                 }
                 return
         })
-        const message = "Appointment details and assistance sent to " + patient + '.'
+        const patientName = patientOptions.find( it => {
+                return (it.key === patient )
+            }).text
+        const message = "Appointment details and assistance sent to " + patientName + '.'
         this.setState({
             success : true, 
             error: false,
@@ -237,7 +241,7 @@ class AppointmentForm extends Component {
                         options={languageOptions}
                     />
                     <Divider />
-                    <Grid textAlign='center'>
+                    <Grid textAlign='center' divided>
                         <Grid.Row>
                         <Grid.Column width={8} centered>
                         <Form.Group inline>
@@ -343,6 +347,7 @@ class AppointmentForm extends Component {
                         header='Action Items'
                     >
                         <Message.Header>Missing required fields</Message.Header>
+                        <Divider />
                         <List horizontal celled>
                             {
                                 (patient === '')   ? <List.Item> Select Patient </List.Item> : undefined 
