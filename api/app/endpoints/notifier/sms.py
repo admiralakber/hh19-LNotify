@@ -50,7 +50,7 @@ def sms(fillsms : dict) -> dict:
     
     # if audio...
     audio = None
-    translate_code = "zh-cn" # 
+    translate_code = "en" # 
     if fillsms['Audio']:
         # get the stuff before the url
         read = "\n".join(text)
@@ -68,7 +68,7 @@ def sms(fillsms : dict) -> dict:
             audio.save("{}/{}.mp3".format(config.output_dir, appointment_hash))
             text.append("{}: {}.".format(audiotext, "https://api.culturefluent.thaum.io/LNotify/audio/"+appointment_hash))
 
-    maptext = translator.translate("DIRECTIONS", dest=short)
+    maptext = translator.translate("DIRECTIONS", dest=translate_code)
     text.append("DIRECTIONS: {}".format(maptext,maps_url))
 
     print("Text", text, flush=True)
