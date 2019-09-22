@@ -26,8 +26,7 @@ export default class Header extends Component {
               to='/'
               active={activeItem === 'home'}
               onClick={this.handleItemClick}
-            ><img src="CultureFluent.png" style={{height: '100px', width: "100%"}}></img></LinkedItem>
-            <Menu.Menu position='right'>
+            ><img src="CultureFluent.png" style={{height: '6vh', width: "auto"}}></img></LinkedItem>
               <LinkedItem
                 name='templates'
                 to='template'
@@ -39,7 +38,6 @@ export default class Header extends Component {
                 active={activeItem === 'logout'}
                 onClick={this.handleItemClick}
               />
-            </Menu.Menu>
           </Container>
         </Menu>
     )

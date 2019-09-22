@@ -9,7 +9,8 @@ import {
     Grid,
     Message,
     List,
-    Container
+    Dimmer,
+    GridRow
 } from 'semantic-ui-react'
 import moment from 'moment'
 import _ from 'lodash'
@@ -114,6 +115,7 @@ class AppointmentForm extends Component {
                 }
                 return
         })
+        const message = "Appointment details and assistance sent to " + patient + '.'
         this.setState({
             success : true, 
             error: false,
@@ -121,7 +123,10 @@ class AppointmentForm extends Component {
             patient: '',
             doctor: '',
             notes: '',
-            dateTime: ''
+            dateTime: '',
+            interp: false,
+            vision: false,
+            message
         })
     }
     
@@ -170,7 +175,8 @@ class AppointmentForm extends Component {
         })
     }
 
-
+    handleOpen = () => this.setState({ success: true })
+    handleClose = () => this.setState({ success: false })
 
     render() {
         const { 
@@ -186,6 +192,7 @@ class AppointmentForm extends Component {
             patientOptions,
             languageOptions,
             defaultDoctor,
+            message,
             defaultLanguage
         } = this.state
         const disabled = (doctor === '') || (patient === '') || (language === '') || (dateTime === '')
@@ -230,7 +237,23 @@ class AppointmentForm extends Component {
                         options={languageOptions}
                     />
                     <Divider />
-                    <Form.Group inline>
+                    <Grid textAlign='center'>
+                        <Grid.Row>
+                        <Grid.Column width={8} centered>
+                        <Form.Group inline>
+                            <label> Send an audio accessible message?</label>
+                            <Form.Radio
+                                toggle
+                                value={vision}
+                                name='vision'
+                                checked={vision}
+                                onChange={this.handleToggle}
+                            />
+                        </Form.Group>
+                        </Grid.Column>
+
+                        <Grid.Column width={8} centered>
+                        <Form.Group inline>
                         <label>Has an interpreter been organised?</label>
                         <Form.Radio
                             toggle
@@ -239,16 +262,10 @@ class AppointmentForm extends Component {
                             checked={interp}
                             onChange={this.handleToggle}
                         />
-                        <Icon name='audio'/>
-                        <label> Send an audio accessible message?</label>
-                        <Form.Radio
-                            toggle
-                            value={vision}
-                            name='vision'
-                            checked={vision}
-                            onChange={this.handleToggle}
-                        />
-                    </Form.Group>
+                        </Form.Group>
+                        </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
                     <Divider />
                     <DateTimeInput
                         inline
@@ -343,6 +360,18 @@ class AppointmentForm extends Component {
                     </Message>
                 </Form>
             </Segment>
+            <Dimmer active={success} onClick={this.handleClose} page>
+                <Header as='h2' icon inverted>
+                    <Icon name='heart' />
+                        Message Translated 
+                    <Header.Subheader>
+                        {message}
+                    </Header.Subheader>
+                    <Header.Subheader>
+                        Click anywhere to continue!
+                    </Header.Subheader>
+                </Header>
+            </Dimmer>
             </div>
         )
     }
