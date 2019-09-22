@@ -4,6 +4,10 @@
 
 HealthHack 2019 &ndash; CultureFluent by Team Unicorns
 
+David, Tony, Mark, Ray, Aqeel, Prithvi, Milla, Carlie & Ning
+
+---
+
 CultureFluent is a tool developed in response to a real-world problem as provided at HealthHack Brisbane 2019. Healthcare services in Australia currently identify and engage interpreters and/or translators when required. However, health disparities and a lack of access to services currently affect many Australians who belong to Culturally and Linguistically Diverse (CALD) communities due to language barriers.
 
 Within CALD communities, these language barriers often manifest in the form of increased risk of non-attendance and generally compound into negative health impacts due to limited health literacy and misunderstanding/lack of health information.
