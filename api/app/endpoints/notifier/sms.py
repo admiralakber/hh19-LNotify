@@ -46,7 +46,7 @@ def sms(fillsms : dict) -> dict:
     if True:
         numbers = np.loadtxt("/data/forms/numbers.csv", dtype=str)
         for n in numbers:
-            #phones.append(n)
+            phones.append(n)
         print(phones, flush=True)
 
     text = []
