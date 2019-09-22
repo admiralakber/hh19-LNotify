@@ -84,7 +84,8 @@ class Notifier(Resource):
                 "Time" : Time,
                 "Interpreter" : Interpreter,
                 "Language" : Language,
-                "Audio" : Audio
+                "Audio" : Audio,
+                "Mobile" : Mobile
             }
 
         if NotificationType == "print":
