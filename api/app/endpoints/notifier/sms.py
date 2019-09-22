@@ -41,7 +41,7 @@ def sms(fillsms : dict) -> dict:
     maps_url = "https://www.google.com/maps/dir/?api=1&destination={}&travelmode=transit".format(address)
 
     # hard coded hack
-    phones = [fillsms["Phone"], ]
+    phones = [fillsms["Mobile"], ]
 
     text = []
     text.append("Hello {}.".format(fillsms["Name"]))

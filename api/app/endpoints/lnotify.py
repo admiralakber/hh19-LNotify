@@ -61,6 +61,7 @@ class Notifier(Resource):
     def get(self):
         args = reqpar.parse_args()
         Name = endpoints.data.patients[args['patient']]['name']
+        Mobile = endpoints.data.patients[args['patient']]['telecom'][0]['value']
         #DateTime = arrow.get(args['dateTime'])
         DateTime = datetime.strptime(args['dateTime'], "%d-%m-%Y %H:%M")
         Date = DateTime.strftime("%A %d %B %Y")
