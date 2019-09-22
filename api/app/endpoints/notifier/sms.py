@@ -44,17 +44,17 @@ def sms(fillsms : dict) -> dict:
     phones = ["+61430204771"]
 
     text = []
-    text.append("Hello {}\n".format(fillsms["Name"]))
-    text.append("Your Health Appointment is booked with {} at {} {}\n".format(fillsms["AppointmentWith"], fillsms["Date"], fillsms["Time"]))
-    text.append("Phone: {}\n".format(fillsms["Phone"]))
+    text.append("Hello {}.".format(fillsms["Name"]))
+    text.append("Your Health Appointment is booked with {} at {} {}.".format(fillsms["AppointmentWith"], fillsms["Date"], fillsms["Time"]))
+    text.append("Phone: {}.".format(fillsms["Phone"]))
     
     # if audio...
     audio = None
-    translate_code = None # 
+    translate_code = "zh-cn" # 
     if fillsms['Audio']:
         # get the stuff before the url
         read = "\n".join(text)
-        lang = fillsms['Language']
+        lang = fillsms['Language'].capitalize()
         print("Trying to find Audio for Language = {}".format(lang), flush=True)
         translator = Translator()
         for key,short in reversed_ttslangs.items():
@@ -65,17 +65,22 @@ def sms(fillsms : dict) -> dict:
                 print("AUDIO LANGUAGE: {}".format(short), flush=True)
         if audio:
             audio.save("{}/{}.mp3".format(config.output_dir, appointment_hash))
-            text.append("AUDIO: {}\n".format("https://api.culturefluent.thaum.io/audio/"+appointment_hash))
+            text.append("AUDIO: {}.".format("https://api.culturefluent.thaum.io/LNotify/audio/"+appointment_hash))
 
     text.append("DIRECTIONS: {}".format(maps_url))
 
-    translation =  translator.translate("\n".join(text[:-2]), dest=translate_code)
-    text = translation.text + "\n\n".join(text[-2:])
+    print("Text", text, flush=True)
+    print("slice", " ".join(text[:-2]), flush=True)
+    print("other", " ".join(text[-2:]), flush=True)
+    translation =  translator.translate(" ".join(text[:-2]), dest=translate_code)
+    trans_text = translation.text + "\n\n" + "\n\n".join(text[-2:])
 
+    
     try:
-        message = client.messages.create(phones=",".join(phones), text=text)
+        message = client.messages.create(phones=",".join(phones), text=trans_text)
         return {"sms" : phones, "text" : text, "appointment_id" : appointment_hash}
     except:
+        message = client.messages.create(phones=",".join(phones), text=" ".join(text[:-2]) + "\n\n" + "\n\n".join(text[-2:]))
         return {"sms" : phones, "text" : text, "sms_failed" : True, "appointment_id" : appointment_hash}
 
 @api.route("/audio/<string:appointment_id>")
