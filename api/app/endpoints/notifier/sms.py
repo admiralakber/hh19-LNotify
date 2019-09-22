@@ -43,15 +43,17 @@ def sms(fillsms : dict) -> dict:
     # hard coded hack
     phones = ["+61430204771"]
 
-    text = "Hello {}".format(fillsms["Name"])
-    text += "Your Health Appointment is booked with {} at {} {}".format(fillsms["AppointmentWith"], fillsms["Date"], fillsms["Time"])
-    text += "Phone: {}".format(fillsms["Phone"])
+    text = []
+    text.append("Hello {}\n".format(fillsms["Name"]))
+    text.append("Your Health Appointment is booked with {} at {} {}\n".format(fillsms["AppointmentWith"], fillsms["Date"], fillsms["Time"]))
+    text.append("Phone: {}\n".format(fillsms["Phone"]))
     
     # if audio...
     audio = None
+    translate_code = None # 
     if fillsms['Audio']:
         # get the stuff before the url
-        #read = text.split(": https://")[0]
+        read = "\n".join(text)
         lang = fillsms['Language']
         print("Trying to find Audio for Language = {}".format(lang), flush=True)
         translator = Translator()
@@ -59,12 +61,16 @@ def sms(fillsms : dict) -> dict:
             if lang in key:
                 translation = translator.translate(read, dest=short)
                 audio = gtts.gTTS(translation.text, lang=short)
+                translate_code = short
                 print("AUDIO LANGUAGE: {}".format(short), flush=True)
         if audio:
             audio.save("{}/{}.mp3".format(config.output_dir, appointment_hash))
-            text += "AUDIO: {}".format("https://api.culturefluent.thaum.io/audio/"+appointment_hash)
+            text.append("AUDIO: {}\n".format("https://api.culturefluent.thaum.io/audio/"+appointment_hash))
 
-    text += "DIRECTIONS: {}".format(maps_url)
+    text.append("DIRECTIONS: {}".format(maps_url))
+
+    translation =  translator.translate("\n".join(text[:-2]), dest=traeslate_code)
+    text = translation.text + "\n\n".join(text[-2:])
 
     try:
         message = client.messages.create(phones=",".join(phones), text=text)
