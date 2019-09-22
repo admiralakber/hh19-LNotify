@@ -76,7 +76,7 @@ def sms(fillsms : dict) -> dict:
             text.append("{}: {}.".format(audiotext, "https://api.culturefluent.thaum.io/LNotify/audio/"+appointment_hash))
 
     maptext = translator.translate("DIRECTIONS", dest=translate_code).text
-    text.append("DIRECTIONS: {}".format(maptext,maps_url))
+    text.append("{}: {}".format(maptext,maps_url))
 
     print("Text", text, flush=True)
     print("slice", " ".join(text[:-2]), flush=True)
