@@ -1,4 +1,6 @@
-# CultureFluent &ndash; Appointment Translation
+# CultureFluent
+
+![CultureFluent Logo](frontend/app/public/CultureFluent.png)
 
 HealthHack 2019 &ndash; CultureFluent by Team Unicorns
 
@@ -6,7 +8,7 @@ CultureFluent is a tool developed in response to a real-world problem as provide
 
 Within CALD communities, these language barriers often manifest in the form of increased risk of non-attendance and generally compound into negative health impacts due to limited health literacy and misunderstanding/lack of health information.
 
-CultureFluent removes a part of the obstacle by providing patients with future appointment letters in their preferred English (rather than in English). This will assist in addressing the current access barriers, improve understanding and communication, as well as engage and work with differing health beliefs, preferences and traditions.
+CultureFluent removes a part of the obstacle by providing patients with future appointment letters in their preferred language (rather than in English). This will assist in addressing the current access barriers, improve understanding and communication, as well as engage and work with differing health beliefs, preferences and traditions.
 
 ## Features
 
@@ -41,6 +43,7 @@ CultureFluent is able to provide audio for its 33 languages through its integrat
 - Docker
 - Docker Compose
 - React
+- Flask
 - Swagger
 - OpenAPI Doc
 - Nginx
