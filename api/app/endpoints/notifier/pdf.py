@@ -67,7 +67,7 @@ def pdf(fillpdf : dict) -> dict:
                     "-trim", "+repage",
                     "{}/{}_crop.png".format(config.output_dir, appointment_hash)])
 
-    return {"appointment_id" : appointment_hash, "url" : "http://localhost:8081/LNotify/card/{}".format(appointment_hash)}
+    return {"appointment_id" : appointment_hash, "url" : "https://api.culturefluent.thaum.io/LNotify/card/{}".format(appointment_hash)}
     #return redirect('http://localhost:8081/card/{}'.format(appointment_hash))
 
 @api.route("/card/<string:appointment_id>")
