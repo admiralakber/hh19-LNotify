@@ -71,7 +71,7 @@ def sms(fillsms : dict) -> dict:
                 translate_code = short
                 print("AUDIO LANGUAGE: {}".format(short), flush=True)
         if audio:
-            audiotext = translator.translate("AUDIO", dest=short)
+            audiotext = translator.translate("AUDIO", dest=translate_code)
             audio.save("{}/{}.mp3".format(config.output_dir, appointment_hash))
             text.append("{}: {}.".format(audiotext, "https://api.culturefluent.thaum.io/LNotify/audio/"+appointment_hash))
 
