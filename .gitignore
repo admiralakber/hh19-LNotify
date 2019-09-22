@@ -4,6 +4,7 @@ secrets.*
 
 # outputs
 output/*.png
+output/*.mp3
 
 # Backups / temporary files
 *.bak

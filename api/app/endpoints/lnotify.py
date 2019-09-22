@@ -70,7 +70,7 @@ class Notifier(Resource):
         # hack
         Address,Phone = endpoints.data.doctors[args['doctor']][1].split(" Phone: ")
         Language = args['language']
-        VisionImpaired = str(args['vision'])
+        Audio = str(args['vision']) # legacy, vision impaired.. audio accessible is more equitable
         
         NotificationType = args['name']
 
@@ -82,7 +82,8 @@ class Notifier(Resource):
                 "Date" : Date,
                 "Time" : Time,
                 "Interpreter" : Interpreter,
-                "Language" : Language
+                "Language" : Language,
+                "Audio" : Audio
             }
 
         if NotificationType == "print":

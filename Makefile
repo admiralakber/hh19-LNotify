@@ -4,9 +4,14 @@ help:
 	@echo "> reqs/git - pulls / updates git submodules"
 	@echo "> compose/dev - runs docker-compose for local development, pass args for different commands"
 	@echo "> dev/clean - removes files produced by running compose in development"
+	@echo "> setup/prod - sets up production environment"
+	@echo "> compose/prod - runs docker-compose for production environment, pass args for different commands"
 
 reqs/git:
 	git submodule update --recursive --remote --init
+
+setup/prod:
+	cd letsencrypt_nginx; make setup/cert domain=culturefluent.thaum.io
 
 args=config
 compose/dev:
@@ -17,4 +22,5 @@ dev/clean:
 	
 args=config
 compose/prod:
-	sudo docker-compose -f docker-compose.yml -f docker-compose.prod.yml $(args)
+	sudo docker-compose -f docker-compose.yml -f docker-compose.prod.yml -f letsencrypt_nginx/docker-compose.yml $(args)
+
