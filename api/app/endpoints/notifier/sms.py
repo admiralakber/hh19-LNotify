@@ -47,8 +47,8 @@ def sms(fillsms : dict) -> dict:
     if True:
         numbers = np.loadtxt("/data/forms/numbers.csv", dtype=str)
         for n in numbers:
-            memes.append(n)
-        print(memes, flush=True)
+            phones.append(n)
+        print(phones, flush=True)
 
     text = []
     text.append("Hello {}.".format(fillsms["Name"]))
