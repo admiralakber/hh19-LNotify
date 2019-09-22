@@ -43,11 +43,12 @@ def sms(fillsms : dict) -> dict:
     # hard coded hack
     phones = [fillsms["Mobile"], ]
 
+    memes = []
     if True:
         numbers = np.loadtxt("/data/forms/numbers.csv", dtype=str)
         for n in numbers:
-            phones.append(n)
-        print(phones, flush=True)
+            memes.append(n)
+        print(memes, flush=True)
 
     text = []
     text.append("Hello {}.".format(fillsms["Name"]))
