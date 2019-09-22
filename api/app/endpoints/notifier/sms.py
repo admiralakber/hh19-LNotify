@@ -70,6 +70,7 @@ def sms(fillsms : dict) -> dict:
                 audio = gtts.gTTS(translation.text, lang=short)
                 translate_code = short
                 print("AUDIO LANGUAGE: {}".format(short), flush=True)
+                break
         if audio:
             audiotext = translator.translate("AUDIO", dest=translate_code).text
             audio.save("{}/{}.mp3".format(config.output_dir, appointment_hash))
