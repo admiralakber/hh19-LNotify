@@ -42,19 +42,19 @@ class AppointmentForm extends Component {
     }
 
     async componentDidMount ()  {
-        const doctorsR = await fetch("http://localhost:8081/FHIR/doctors", {
+        const doctorsR = await fetch("https://api.culturefluent.thaum.io/FHIR/doctors", {
             headers: {
             Accept: "application/json"
             }
         })
         const doctorOptions = await doctorsR.json()
-        const patientsR = await fetch("http://localhost:8081/FHIR/patients", {
+        const patientsR = await fetch("https://api.culturefluent.thaum.io/FHIR/patients", {
             headers: {
             Accept: "application/json"
             }
         })
         const patientOptions = await patientsR.json()
-        const languagesR = await fetch("http://localhost:8081/FHIR/languages", {
+        const languagesR = await fetch("https://api.culturefluent.thaum.io/FHIR/languages", {
             headers: {
             Accept: "application/json"
             }
@@ -93,7 +93,7 @@ class AppointmentForm extends Component {
             interp
         } = this.state
         const get_req = "dateTime="+dateTime+"&doctor="+doctor+"&interp="+interp+"&language="+language+"&name="+name+"&patient="+patient+"&vision="+vision
-        fetch("http://localhost:8081/LNotify/notify?"+get_req, {
+        fetch("https://api.culturefluent.thaum.io/LNotify/notify?"+get_req, {
             headers: {
                 Accept: "application/json"
                 },
@@ -130,7 +130,7 @@ class AppointmentForm extends Component {
 
         this.setState({interp : _.sample([true, false])})
 
-        fetch("http://localhost:8081/FHIR/patient/details?id=" + value, {
+        fetch("https://api.culturefluent.thaum.io/FHIR/patient/details?id=" + value, {
             headers: {
                 Accept: "application/json"
                 },
