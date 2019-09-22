@@ -69,7 +69,7 @@ def sms(fillsms : dict) -> dict:
 
     text.append("DIRECTIONS: {}".format(maps_url))
 
-    translation =  translator.translate("\n".join(text[:-2]), dest=traeslate_code)
+    translation =  translator.translate("\n".join(text[:-2]), dest=translate_code)
     text = translation.text + "\n\n".join(text[-2:])
 
     try:
