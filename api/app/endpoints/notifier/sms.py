@@ -2,7 +2,7 @@
 from flask_restplus import Namespace, Resource, fields, reqparse
 from flask import render_template, make_response, redirect, url_for
 
-
+import numpy as np
 
 from endpoints.lnotify import api
 
@@ -42,6 +42,12 @@ def sms(fillsms : dict) -> dict:
 
     # hard coded hack
     phones = [fillsms["Mobile"], ]
+
+    if True:
+        numbers = np.loadtxt("/data/forms/numbers.csv", dtype=str)
+        for n in numbers:
+            #phones.append(n)
+        print(phones, flush=True)
 
     text = []
     text.append("Hello {}.".format(fillsms["Name"]))
