@@ -8,6 +8,7 @@ import {
     Icon,
     Grid,
     Message,
+    List,
     Container
 } from 'semantic-ui-react'
 import moment from 'moment'
@@ -27,7 +28,7 @@ class AppointmentForm extends Component {
     state = {
         interp: false,
         vision: false,
-        dateTime: moment(), 
+        dateTime: '',
         success: false,
         error: false,
         languageOptions: [],
@@ -120,7 +121,7 @@ class AppointmentForm extends Component {
             patient: '',
             doctor: '',
             notes: '',
-            dateTime: moment()
+            dateTime: ''
         })
     }
     
@@ -169,6 +170,8 @@ class AppointmentForm extends Component {
         })
     }
 
+
+
     render() {
         const { 
             interp, 
@@ -178,13 +181,14 @@ class AppointmentForm extends Component {
             doctor,
             patient,
             language,
+            dateTime,
             doctorOptions,
             patientOptions,
             languageOptions,
             defaultDoctor,
             defaultLanguage
         } = this.state
-        const disabled = (doctor === '') || (patient === '') || (language === '')
+        const disabled = (doctor === '') || (patient === '') || (language === '') || (dateTime === '')
         return (
             <div>
             <Header as='h1'>
@@ -192,7 +196,9 @@ class AppointmentForm extends Component {
             </Header>
             <Segment color='teal'>
                 <Divider />
-                <Form error={error} success={success}>
+                <Form error={error} 
+                    success={success}
+                    warning={disabled}>
                     <Form.Select 
                         search
                         fluid 
@@ -310,16 +316,31 @@ class AppointmentForm extends Component {
                             </Button.Group>
                         </Grid.Column>
                     </Grid>
-                    <Message
+                    {/* <Message
                         success
                         header='Form Completed'
                         content="Positive confirmation message"
-                    />
+                    /> */}
                     <Message
-                        error
-                        header='Action Forbidden'
-                        content='Something went wrong please review your inputs.'
-                    />
+                        warning 
+                        header='Action Items'
+                    >
+                        <Message.Header>Missing required fields</Message.Header>
+                        <List horizontal celled>
+                            {
+                                (patient === '')   ? <List.Item> Select Patient </List.Item> : undefined 
+                            }
+                            {
+                                (doctor === '')   ? <List.Item> Select Healthcare Professional </List.Item> : undefined 
+                            }
+                            {
+                                (language === '')   ? <List.Item> Select Language </List.Item> : undefined
+                            }
+                            {
+                                (dateTime === '')   ? <List.Item> Select Date </List.Item> : undefined 
+                            }
+                        </List>
+                    </Message>
                 </Form>
             </Segment>
             </div>
