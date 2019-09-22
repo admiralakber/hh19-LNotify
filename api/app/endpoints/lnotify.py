@@ -87,7 +87,7 @@ class Notifier(Resource):
             }
 
         if NotificationType == "print":
-            filled["Interpreter"] = "✔" if filled["Interpreter"] else "✘"
+            filled["Interpreter"] = "YES" if filled["Interpreter"] else "NO"
             return pdf(filled)
         if NotificationType == "sms":
             return sms(filled)
