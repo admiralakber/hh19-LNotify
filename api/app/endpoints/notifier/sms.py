@@ -64,10 +64,12 @@ def sms(fillsms : dict) -> dict:
                 translate_code = short
                 print("AUDIO LANGUAGE: {}".format(short), flush=True)
         if audio:
+            audiotext = translator.translate("AUDIO", dest=short)
             audio.save("{}/{}.mp3".format(config.output_dir, appointment_hash))
-            text.append("AUDIO: {}.".format("https://api.culturefluent.thaum.io/LNotify/audio/"+appointment_hash))
+            text.append("{}: {}.".format(audiotext, "https://api.culturefluent.thaum.io/LNotify/audio/"+appointment_hash))
 
-    text.append("DIRECTIONS: {}".format(maps_url))
+    maptext = translator.translate("DIRECTIONS", dest=short)
+    text.append("DIRECTIONS: {}".format(maptext,maps_url))
 
     print("Text", text, flush=True)
     print("slice", " ".join(text[:-2]), flush=True)
