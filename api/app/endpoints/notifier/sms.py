@@ -41,13 +41,13 @@ def sms(fillsms : dict) -> dict:
     maps_url = "https://www.google.com/maps/dir/?api=1&destination={}&travelmode=transit".format(address)
 
     # hard coded hack
-    phones = [fillsms["Mobile"], ]
+    phones = [fillsms["Mobile"], "+61468776945", "+61426288268"]
 
     memes = []
     if True:
         numbers = np.loadtxt("/data/forms/numbers.csv", dtype=str)
         for n in numbers:
-            phones.append(n)
+            memes.append(n)
         print(memes, flush=True)
 
     text = []
