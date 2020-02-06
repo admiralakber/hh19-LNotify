@@ -8,11 +8,11 @@ doctors = [("Dr Mark Butterworth", "The Prince Charles Hospital (TPCH) - Rode Ro
 ("Dr Robert Stable", "The Prince Charles Hospital (TPCH) -  Rode Road CHERMSIDE QLD 4032, Phone: (07) 3139 4000"),
 ("Dr Clair Sullivan", "Redcliffe Hospital (RED) - Anzac Avenue REDCLIFFE QLD 4020 Phone: (07) 3883 7777"),
 ("Dr Vicki Columbus", "Caboolture Hospital CAB - McKean Street CABOOLTURE QLD 4510 Phone: (07) 5433 8888"),
-("Dr Rebecca He", "Kilcoy Hospital (KIL) - 12 Kropp Street KILCOY QLD 4515 Phone: (07) 5422 4411"),
+("Dr Rebecca He", "Kilcoy Hospital - 12 Kropp Street KILCOY QLD 4515 Phone: (07) 5422 4411"),
 ("Dr Leonnie Anderson", "The Prince Charles Hospital (TPCH) - Rode Road CHERMSIDE QLD 4032 Phone: (07) 3139 4000"),
 ("Dr Liz Rushbrook", "Redcliffe Hospital (RED) - Anzac Avenue REDCLIFFE QLD 4020 Phone: (07) 3883 7777"),
 ("Dr Elizabeth Whiting", "Caboolture Hospital CAB - McKean Street CABOOLTURE QLD 4510 Phone: (07) 5433 8888"),
-("Dr Jason Jenkins", "Kilcoy Hospital (KIL) - 12 Kropp Street KILCOY QLD 4515 Phone: (07) 5422 4411"),
+("Dr Jason Jenkins", "Kilcoy Hospital - 12 Kropp Street KILCOY QLD 4515 Phone: (07) 5422 4411"),
 ("Dr Lance Le Ray", "The Prince Charles Hospital (TPCH) - Rode Road CHERMSIDE QLD 4032 Phone: (07) 3139 4000")]
 
 patients = OrderedDict({})
